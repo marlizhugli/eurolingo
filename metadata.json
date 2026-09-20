@@ -1,0 +1,6 @@
+{
+  "name": "European Day of Languages Odyssey",
+  "description": "Celebration portal for European Day of Languages featuring an interactive geographic language galaxy, authentic European metaphors and figurative expressions gallery, multilingual pronunciation studio, and false friends cyber mini-game.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

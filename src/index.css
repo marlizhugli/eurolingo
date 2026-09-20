@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --duo-green: #58cc02;
+    --duo-green-dark: #46a302;
+    --duo-green-light: #d7ffb8;
+    --duo-yellow: #ffc800;
+    --duo-yellow-dark: #e5a500;
+    --duo-yellow-light: #fff5cc;
+    --duo-red: #ff4b4b;
+    --duo-red-dark: #ea2b2b;
+    --duo-red-light: #ffdfe0;
+    --duo-blue: #1cb0f6;
+    --duo-blue-dark: #1899d6;
+    --duo-blue-light: #ddf4ff;
+    --duo-gray-border: #e5e5e5;
+    --duo-gray-text: #777777;
+    --duo-dark-text: #3c3c3c;
+  }
+
+  body {
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    background-color: #f2f7fc;
+    color: #3c3c3c;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    font-weight: 800;
+  }
+}
+
+/* Duolingo-style 3D Tactile Buttons */
+.duo-btn-green {
+  background-color: #58cc02;
+  border-bottom: 4px solid #46a302;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.1s ease;
+}
+.duo-btn-green:hover {
+  background-color: #61e002;
+}
+.duo-btn-green:active {
+  border-bottom-width: 0px;
+  transform: translateY(4px);
+}
+
+.duo-btn-yellow {
+  background-color: #ffc800;
+  border-bottom: 4px solid #e5a500;
+  color: #4a3300;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.1s ease;
+}
+.duo-btn-yellow:hover {
+  background-color: #ffd324;
+}
+.duo-btn-yellow:active {
+  border-bottom-width: 0px;
+  transform: translateY(4px);
+}
+
+.duo-btn-red {
+  background-color: #ff4b4b;
+  border-bottom: 4px solid #ea2b2b;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.1s ease;
+}
+.duo-btn-red:hover {
+  background-color: #ff5c5c;
+}
+.duo-btn-red:active {
+  border-bottom-width: 0px;
+  transform: translateY(4px);
+}
+
+.duo-btn-blue {
+  background-color: #1cb0f6;
+  border-bottom: 4px solid #1899d6;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.1s ease;
+}
+.duo-btn-blue:hover {
+  background-color: #28b8ff;
+}
+.duo-btn-blue:active {
+  border-bottom-width: 0px;
+  transform: translateY(4px);
+}
+
+.duo-btn-white {
+  background-color: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #cecece;
+  color: #4b4b4b;
+  font-weight: 800;
+  border-radius: 16px;
+  transition: all 0.1s ease;
+}
+.duo-btn-white:hover {
+  background-color: #f7f7f7;
+  border-color: #d0d0d0;
+  border-bottom-color: #b5b5b5;
+}
+.duo-btn-white:active {
+  border-bottom-width: 2px;
+  transform: translateY(2px);
+}
+
+/* Duolingo Cards */
+.duo-card {
+  background-color: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #e5e5e5;
+  border-radius: 20px;
+  transition: all 0.15s ease;
+}
+.duo-card:hover {
+  border-color: #cecece;
+}
+
+.duo-card-clickable {
+  cursor: pointer;
+}
+.duo-card-clickable:hover {
+  border-color: #1cb0f6;
+  background-color: #f7fcff;
+}
+.duo-card-clickable:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Speech Bubble Tail */
+.duo-speech-bubble {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  border-radius: 18px;
+}
+.duo-speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid #e5e5e5;
+}
+.duo-speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 9px solid #ffffff;
+}
+
+/* 3D Card Flip Utilities */
+.perspective {
+  perspective: 1000px;
+}
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Keep translated text and grid children within narrow viewport tracks. */
+@layer base {
+  .grid > *, .flex > * { min-width: 0; }
+  p, h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
+}
