@@ -79,8 +79,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     }));
     const modelCandidates = [
       process.env.GEMINI_MODEL,
-      'gemini-2.5-flash',
-      'gemini-2.5-flash-lite',
+      'gemini-3.8-flash',
+      'gemini-3.6-flash',
     ].filter((model, index, models): model is string => Boolean(model) && models.indexOf(model) === index);
 
     let response: Awaited<ReturnType<typeof ai.models.generateContent>> | null = null;
@@ -99,7 +99,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         break;
       } catch (error: unknown) {
         lastError = error;
-        if (Number((error as { status?: unknown })?.status) !== 404) throw error;
+        continue;
       }
     }
 

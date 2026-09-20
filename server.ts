@@ -48,11 +48,22 @@ app.post('/api/chat', async (req, res) => {
       parts: [{ text: m.text }],
     }));
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-      contents,
-      config: {
-        systemInstruction: `You are Lingo the European Bison (Wisent) mascot celebrating the European Day of Languages (Sept 26).
+    const modelCandidates = [
+      process.env.GEMINI_MODEL,
+      'gemini-3.8-flash',
+      'gemini-3.6-flash',
+    ].filter((model, index, models): model is string => Boolean(model) && models.indexOf(model) === index);
+
+    let response: any = null;
+    let lastError: any = null;
+
+    for (const model of modelCandidates) {
+      try {
+        response = await ai.models.generateContent({
+          model,
+          contents,
+          config: {
+            systemInstruction: `You are Lingo the European Bison (Wisent) mascot celebrating the European Day of Languages (Sept 26).
 You are a warm, sturdy, and cheerful European language mentor and friendly conversational partner.
 - Your name is Lingo.
 - You are an iconic European Bison (Wisent), symbol of European wilderness and unity.
@@ -62,9 +73,17 @@ You are a warm, sturdy, and cheerful European language mentor and friendly conve
 - If the user writes in another language, respond naturally in that language and optionally include a brief English translation or helpful tip.
 - Maintain a cheerful, motivating tone with occasional friendly expressions (Hello! 🦬) without being annoying.
 - Keep your answers concise and readable with clean markdown.`,
-        temperature: 0.7,
-      },
-    });
+            temperature: 0.7,
+          },
+        });
+        break;
+      } catch (err: any) {
+        lastError = err;
+        continue;
+      }
+    }
+
+    if (!response) throw lastError;
 
     const reply = response.text || "Hello! 🦬 I didn't catch that, could you rephrase?";
     res.json({ reply });
