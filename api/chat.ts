@@ -73,17 +73,37 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   try {
     const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-      contents: messages.map((message) => ({
-        role: message.role === 'assistant' || message.role === 'model' ? 'model' : 'user',
-        parts: [{ text: message.text }],
-      })),
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.7,
-      },
-    });
+    const contents = messages.map((message) => ({
+      role: message.role === 'assistant' || message.role === 'model' ? 'model' : 'user',
+      parts: [{ text: message.text }],
+    }));
+    const modelCandidates = [
+      process.env.GEMINI_MODEL,
+      'gemini-2.5-flash',
+      'gemini-2.5-flash-lite',
+    ].filter((model, index, models): model is string => Boolean(model) && models.indexOf(model) === index);
+
+    let response: Awaited<ReturnType<typeof ai.models.generateContent>> | null = null;
+    let lastError: unknown;
+
+    for (const model of modelCandidates) {
+      try {
+        response = await ai.models.generateContent({
+          model,
+          contents,
+          config: {
+            systemInstruction: SYSTEM_INSTRUCTION,
+            temperature: 0.7,
+          },
+        });
+        break;
+      } catch (error: unknown) {
+        lastError = error;
+        if (Number((error as { status?: unknown })?.status) !== 404) throw error;
+      }
+    }
+
+    if (!response) throw lastError;
 
     res.status(200).json({
       reply: response.text || "I didn't get a response. Could you ask again?",
