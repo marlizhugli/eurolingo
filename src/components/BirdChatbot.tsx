@@ -134,7 +134,7 @@ export const BirdChatbot: React.FC<BirdChatbotProps> = ({
       });
 
       if (!res.headers.get('content-type')?.includes('application/json')) {
-        throw new Error('The chat server is unavailable. Run npm run dev and open http://localhost:3000.');
+        throw new Error('The chat service is unavailable on this deployment. Please try again after the server is configured.');
       }
 
       const data = await res.json();
